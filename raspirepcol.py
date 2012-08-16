@@ -3,63 +3,66 @@ import RPi.GPIO as GPIO
 import time
 import random
 import array
+import signal
 
 ## Function definitions
+
+# Init all pins
+def initPins():
+    # Init output pins
+    for gpioPin in gpioPinLedListAvail:
+        GPIO.setup(gpioPin, GPIO.OUT)
+
+    # Init input pins
+    for gpioPin in gpioPinSwitchListAvail:
+        GPIO.setup(gpioPin, GPIO.IN)
 
 # Flash all LED a given number of times
 def flashAllLed(number) :
     count = 1
     while count <= number:
-        GPIO.output(7, GPIO.HIGH)
-        GPIO.output(11, GPIO.HIGH)
-        GPIO.output(12, GPIO.HIGH)
-        GPIO.output(13, GPIO.HIGH)
+        for gpioPin in gpioPinLedListAvail:
+            GPIO.output(gpioPin, GPIO.HIGH)
+        
         time.sleep(0.25)
-        GPIO.output(7, GPIO.LOW)
-        GPIO.output(11, GPIO.LOW)
-        GPIO.output(12, GPIO.LOW)
-        GPIO.output(13, GPIO.LOW)
+
+        for gpioPin in gpioPinLedListAvail:
+            GPIO.output(gpioPin, GPIO.LOW)
+        
         time.sleep(0.25)
 
         count = count + 1
 
 # Add a new color to light-on and switch to press to the given lists
 def addNewColor(gpioPinLedList, gpioPinSwitchList):
-    ledNumber = random.randint(1,4)
-    gpioPinLed = 0;
-    gpioPinSwitch = 0;
-    if ledNumber == 1:
-        gpioPinLed = 7
-        gpioPinSwitch = 15
-    elif ledNumber == 2:
-        gpioPinLed = 11
-        gpioPinSwitch = 16
-    elif ledNumber == 3:
-        gpioPinLed = 12
-        gpioPinSwitch = 18
-    elif ledNumber == 4:
-        gpioPinLed = 13
-        gpioPinSwitch = 22
+    number = random.randint(0,3)
+    
+    gpioPinLedList.append(gpioPinLedListAvail[number])
+    gpioPinSwitchList.append(gpioPinSwitchListAvail[number])
 
-    gpioPinLedList.append(gpioPinLed)
-    gpioPinSwitchList.append(gpioPinSwitch)
+
+# Called on process interruption. Set all pins to "Input" default mode.
+def endProcess(signalnum = None, handler = None):
+    for gpioPinLed in gpioPinLedListAvail:
+        GPIO.setup(gpioPinLed, GPIO.IN)
+    exit(0)
+
 
 ## Main section
+
+# Prepare handlers for process exit
+signal.signal(signal.SIGTERM, endProcess)
+signal.signal(signal.SIGINT, endProcess)
+
+# Init list of available LED and switches pins
+gpioPinLedListAvail = [7, 11, 12, 13]
+gpioPinSwitchListAvail = [15, 16, 18, 22]
 
 # Use Raspberry Pi board pin numbers
 GPIO.setmode(GPIO.BOARD)
 
-# Init output pins
-GPIO.setup(7, GPIO.OUT)
-GPIO.setup(11, GPIO.OUT)
-GPIO.setup(12, GPIO.OUT)
-GPIO.setup(13, GPIO.OUT)
-
-# Init input pins
-GPIO.setup(15, GPIO.IN)
-GPIO.setup(16, GPIO.IN)
-GPIO.setup(18, GPIO.IN)
-GPIO.setup(22, GPIO.IN)
+# Init pins
+initPins()
 
 # Init empty lists of colors and switches
 gpioPinLedList = []
@@ -87,6 +90,7 @@ while True:
         switchPressed = False
         switchNumber = 0
         while switchPressed == False:
+           """
            if GPIO.input(15) == GPIO.LOW:
                switchNumber = 15
                switchPressed = True
@@ -99,6 +103,11 @@ while True:
            if GPIO.input(22) == GPIO.LOW:
                switchNumber = 22
                switchPressed = True
+           """
+           for gpioPin in gpioPinSwitchListAvail:
+               if GPIO.input(gpioPin) == GPIO.LOW:
+                   switchNumber = gpioPin
+                   switchPressed = True
 
            # Check for validity
            if switchPressed == True:
