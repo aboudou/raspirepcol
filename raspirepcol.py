@@ -68,9 +68,22 @@ initPins()
 gpioPinLedList = []
 gpioPinSwitchList = []
 
-# Flash all LED three times : the game is close to start
+# Flash all LED three times : the game is about to start
 flashAllLed(3)
 time.sleep(2)
+
+# Select difficulty
+basetime = 1
+# TODO : sélection de la difficulté :
+#   - Appui sur un bouton : on allume le nombre de LED correspondantes.
+#   - Si appui sur le même bouton : on valide par un double flash de l'ensemble
+#     des LED, puis on divise le basetime par le nombre de LED allumées
+#     précédemment.
+#   - Si appui sur un autre bouton, retour à l'étape 1.
+print ("Choose difficulty by pressing one of the four buttons.")
+print ("Then validate by pressing again the same button or choose another "
++ "difficulty by pressing another button.")
+
 
 while True:
     # Add a new random color to array (and the corresponding switch)
@@ -79,9 +92,9 @@ while True:
     # Play colors in array
     for gpioPinLed in gpioPinLedList:
         GPIO.output(gpioPinLed, GPIO.HIGH)
-        time.sleep(1)
+        time.sleep(basetime)
         GPIO.output(gpioPinLed, GPIO.LOW)
-        time.sleep(0.5)
+        time.sleep(basetime / 2)
 
     # Wait for user input
     error = False
