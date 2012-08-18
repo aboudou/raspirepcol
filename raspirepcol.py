@@ -70,20 +70,59 @@ gpioPinSwitchList = []
 
 # Flash all LED three times : the game is about to start
 flashAllLed(3)
-time.sleep(2)
 
 # Select difficulty
-basetime = 1
-# TODO : sélection de la difficulté :
-#   - Appui sur un bouton : on allume le nombre de LED correspondantes.
-#   - Si appui sur le même bouton : on valide par un double flash de l'ensemble
-#     des LED, puis on divise le basetime par le nombre de LED allumées
-#     précédemment.
-#   - Si appui sur un autre bouton, retour à l'étape 1.
+basetime = 1.0
 print ("Choose difficulty by pressing one of the four buttons.")
 print ("Then validate by pressing again the same button or choose another "
 + "difficulty by pressing another button.")
+difficulty = 0
+firstChoice = -1
+while difficulty == 0:
+    # Wait for the user to press a button
+    while firstChoice == -1:
+        position = 0
+        while position < len(gpioPinSwitchListAvail):
+            if GPIO.input(gpioPinSwitchListAvail[position]) == GPIO.LOW:
+                firstChoice = position
+            position += 1
 
+    # Light-up the related LEDs
+    position = 0
+    while position < len(gpioPinLedListAvail):
+        if position <= firstChoice:
+            GPIO.output(gpioPinLedListAvail[position], GPIO.HIGH)
+        else:
+            GPIO.output(gpioPinLedListAvail[position], GPIO.LOW)
+        position += 1
+
+    # Wait for the user to release switch
+    while GPIO.input(gpioPinSwitchListAvail[firstChoice]) == GPIO.LOW:
+        time.sleep(0.25)
+
+    # Wait for the user to confirm difficulty
+    secondChoice = -1
+    while secondChoice == -1:
+        position = 0
+        while position < len(gpioPinSwitchListAvail):
+            if GPIO.input(gpioPinSwitchListAvail[position]) == GPIO.LOW:
+                secondChoice = position
+            position += 1
+
+    # Check if the difficulty was confirmed
+    if secondChoice == firstChoice:
+        difficulty = secondChoice + 1
+        flashAllLed(2)
+        time.sleep(2)
+    else:
+        firstChoice = secondChoice
+        
+basetime = basetime / difficulty 
+
+print("")
+print("Choosen difficulty : " + str(difficulty) + "/4")
+print("")
+print("Hit Ctrl + C to stop the game")
 
 while True:
     # Add a new random color to array (and the corresponding switch)
@@ -103,20 +142,6 @@ while True:
         switchPressed = False
         switchNumber = 0
         while switchPressed == False:
-           """
-           if GPIO.input(15) == GPIO.LOW:
-               switchNumber = 15
-               switchPressed = True
-           if GPIO.input(16) == GPIO.LOW:
-               switchNumber = 16
-               switchPressed = True
-           if GPIO.input(18) == GPIO.LOW:
-               switchNumber = 18
-               switchPressed = True
-           if GPIO.input(22) == GPIO.LOW:
-               switchNumber = 22
-               switchPressed = True
-           """
            for gpioPin in gpioPinSwitchListAvail:
                if GPIO.input(gpioPin) == GPIO.LOW:
                    switchNumber = gpioPin
