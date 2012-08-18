@@ -73,8 +73,8 @@ flashAllLed(3)
 
 # Select difficulty
 basetime = 1.0
-print ("Choose difficulty by pressing one of the four buttons.")
-print ("Then validate by pressing again the same button or choose another "
+print("Choose difficulty by pressing one of the four buttons.")
+print("Then validate by pressing again the same button or choose another "
 + "difficulty by pressing another button.")
 difficulty = 0
 firstChoice = -1
@@ -124,6 +124,12 @@ print("Choosen difficulty : " + str(difficulty) + "/4")
 print("")
 print("Hit Ctrl + C to stop the game")
 
+score = 0
+maxScore = 0
+print("")
+print("-- Maximum score: " + str(maxScore))
+print("")
+
 while True:
     # Add a new random color to array (and the corresponding switch)
     addNewColor(gpioPinLedList, gpioPinSwitchList)
@@ -159,6 +165,14 @@ while True:
 
                    gpioPinSwitchList = []
                    gpioPinLedList = []
+                   if (score > maxScore):
+                       maxScore = score
+                   score = 0
+                   
+                   print("")
+                   print("-- Maximum score: " + str(maxScore))
+                   print("")
+
                
                else:
                    # Flash LED once
@@ -166,6 +180,12 @@ while True:
                    time.sleep(0.5)
                    GPIO.output(gpioPinLedList[position], GPIO.LOW)
 
+
+
         position = position+1
+
+    if error == False: 
+        score += 1
+        print("Current score: " + str(score))
 
     time.sleep(1)

@@ -40,7 +40,8 @@ How to play
 When the game is started, all LED blink three time. Then you have to choose 
 game difficulty (aka game speed) : press one of the four switches, and if you
 think your choice is the good one, press the same button. Otherwise, press
-another switch.
+another switch. When you validate your previous choice, all LED blink twice,
+then the game begins.
 
 Then one random LED blink once, and the game waits for the player to push the 
 switch in front of it.

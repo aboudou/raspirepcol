@@ -3,6 +3,7 @@ v1.1 (August xx, 2012)
 *Added compatibility with Python 3.x.
 *Handle nicely Ctrl+C keyboard event.
 *Add possibility to choose game difficulty.
+*Score display.
 
 v1.0 (August 07, 2012)
 *First public version.
