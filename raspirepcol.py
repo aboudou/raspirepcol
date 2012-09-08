@@ -1,9 +1,11 @@
 #!/usr/bin/python
 import RPi.GPIO as GPIO
-import time
-import random
+
 import array
+import random
 import signal
+import sys
+import time
 
 ## Function definitions
 
@@ -50,6 +52,10 @@ def endProcess(signalnum = None, handler = None):
 
 ## Main section
 
+hardmode = False
+if len(sys.argv) > 1 and sys.argv[1] == "--hard":
+    hardmode = True
+
 # Prepare handlers for process exit
 signal.signal(signal.SIGTERM, endProcess)
 signal.signal(signal.SIGINT, endProcess)
@@ -71,56 +77,64 @@ gpioPinSwitchList = []
 # Flash all LED three times : the game is about to start
 flashAllLed(3)
 
-# Select difficulty
 basetime = 1.0
-print("Choose difficulty by pressing one of the four buttons.")
-print("Then validate by pressing again the same button or choose another "
-+ "difficulty by pressing another button.")
-difficulty = 0
-firstChoice = -1
-while difficulty == 0:
-    # Wait for the user to press a button
-    while firstChoice == -1:
+
+if hardmode == False:
+    # Select difficulty
+    print("Choose difficulty by pressing one of the four buttons.")
+    print("Then validate by pressing again the same button or choose another "
+    + "difficulty by pressing another button.")
+    difficulty = 0
+    firstChoice = -1
+    while difficulty == 0:
+        # Wait for the user to press a button
+        while firstChoice == -1:
+            position = 0
+            while position < len(gpioPinSwitchListAvail):
+                if GPIO.input(gpioPinSwitchListAvail[position]) == GPIO.LOW:
+                    firstChoice = position
+                position += 1
+
+        # Light-up the related LEDs
         position = 0
-        while position < len(gpioPinSwitchListAvail):
-            if GPIO.input(gpioPinSwitchListAvail[position]) == GPIO.LOW:
-                firstChoice = position
+        while position < len(gpioPinLedListAvail):
+            if position <= firstChoice:
+                GPIO.output(gpioPinLedListAvail[position], GPIO.HIGH)
+            else:
+                GPIO.output(gpioPinLedListAvail[position], GPIO.LOW)
             position += 1
 
-    # Light-up the related LEDs
-    position = 0
-    while position < len(gpioPinLedListAvail):
-        if position <= firstChoice:
-            GPIO.output(gpioPinLedListAvail[position], GPIO.HIGH)
+        # Wait for the user to release switch
+        while GPIO.input(gpioPinSwitchListAvail[firstChoice]) == GPIO.LOW:
+            time.sleep(0.25)
+
+        # Wait for the user to confirm difficulty
+        secondChoice = -1
+        while secondChoice == -1:
+            position = 0
+            while position < len(gpioPinSwitchListAvail):
+                if GPIO.input(gpioPinSwitchListAvail[position]) == GPIO.LOW:
+                    secondChoice = position
+                position += 1
+
+        # Check if the difficulty was confirmed
+        if secondChoice == firstChoice:
+            difficulty = secondChoice + 1
+            flashAllLed(2)
+            time.sleep(2)
         else:
-            GPIO.output(gpioPinLedListAvail[position], GPIO.LOW)
-        position += 1
+            firstChoice = secondChoice
+else:
+    time.sleep(2)
+    difficulty = 4
 
-    # Wait for the user to release switch
-    while GPIO.input(gpioPinSwitchListAvail[firstChoice]) == GPIO.LOW:
-        time.sleep(0.25)
-
-    # Wait for the user to confirm difficulty
-    secondChoice = -1
-    while secondChoice == -1:
-        position = 0
-        while position < len(gpioPinSwitchListAvail):
-            if GPIO.input(gpioPinSwitchListAvail[position]) == GPIO.LOW:
-                secondChoice = position
-            position += 1
-
-    # Check if the difficulty was confirmed
-    if secondChoice == firstChoice:
-        difficulty = secondChoice + 1
-        flashAllLed(2)
-        time.sleep(2)
-    else:
-        firstChoice = secondChoice
-        
 basetime = basetime / difficulty 
 
 print("")
-print("Choosen difficulty : " + str(difficulty) + "/4")
+if hardmode == False:
+    print("Choosen difficulty : " + str(difficulty) + "/4")
+else:
+    print("Choosen difficulty : hard mode")
 print("")
 print("Hit Ctrl + C to stop the game")
 
@@ -135,10 +149,16 @@ while True:
     addNewColor(gpioPinLedList, gpioPinSwitchList)
 
     # Play colors in array
-    for gpioPinLed in gpioPinLedList:
-        GPIO.output(gpioPinLed, GPIO.HIGH)
+    if hardmode == False:
+        for gpioPinLed in gpioPinLedList:
+            GPIO.output(gpioPinLed, GPIO.HIGH)
+            time.sleep(basetime)
+            GPIO.output(gpioPinLed, GPIO.LOW)
+            time.sleep(basetime / 2)
+    else:
+        GPIO.output(gpioPinLedList[len(gpioPinLedList) - 1], GPIO.HIGH)
         time.sleep(basetime)
-        GPIO.output(gpioPinLed, GPIO.LOW)
+        GPIO.output(gpioPinLedList[len(gpioPinLedList) - 1], GPIO.LOW)
         time.sleep(basetime / 2)
 
     # Wait for user input

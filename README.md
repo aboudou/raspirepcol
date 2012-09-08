@@ -31,13 +31,23 @@ How to use RasPiRepCol
 You'll first have to build the assembly, and plug it to the Raspberry Pi
   (check [https://goddess-gate.com/dc2/index.php/pages/raspirepcol.en](https://goddess-gate.com/dc2/index.php/pages/raspirepcol.en) for more information).
 
+### Normal mode
+
 When you're done, just launch RasPiRepCol with `python ./raspirepcol.py` as
   root user and start playing :-) When you want / need to stop playing, just
   hit `Ctrl + C` to quit.
 
+### Hard mode
+
+If you want to start RasPiRepCol in hard mode, launch if with 
+  `python ./raspirepcol.py --hard` as root user and start playin. When you
+   want / need to stop playing, just hit `Ctrl + C` to quit.
 
 How to play
 -----------
+
+### Normal mode
+
 When the game is started, all LED blink three time. Then you have to choose 
 game difficulty (aka game speed) : press one of the four switches, and if you
 think your choice is the good one, press the same button. Otherwise, press
@@ -50,6 +60,19 @@ switch in front of it.
 If the player push the correct switch, the game blinks again the first LED, then
 blinks another random one, and wait for the player to replay the sequence. And
 so on...
+
+If the player press the wrong button, all LED blink three time, and the game
+restarts from the beginning.
+
+When you want to skip the game, just hit `Ctrl + C` to quit.
+
+### Hard mode
+
+When the game is started, all LED blink three time. Then one random LED blink 
+once, and the game waits for the player to push the switch in front of it.
+
+If the player push the correct switch, the game blinks just another random LED, 
+and wait for the player to replay the full sequence. And so on...
 
 If the player press the wrong button, all LED blink three time, and the game
 restarts from the beginning.
