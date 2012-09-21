@@ -14,7 +14,7 @@ Requirements
 * First of all : a Raspberry Pi
 * LED and resistors to build the assembly. Assembly instructions are available at the following URL: [https://goddess-gate.com/dc2/index.php/pages/raspirepcol.en](https://goddess-gate.com/dc2/index.php/pages/raspirepcol.en)
 * Python (with Debian / Raspbian : packages "python" and "python-dev")
-* RPi.GPIO library (0.3.1a or newer) from [http://pypi.python.org/pypi/RPi.GPIO](http://pypi.python.org/pypi/RPi.GPIO)
+* RPi.GPIO library (0.4.0a or newer) from [http://pypi.python.org/pypi/RPi.GPIO](http://pypi.python.org/pypi/RPi.GPIO)
 
 To help you with the assembly, you may refer to the following files :
 
