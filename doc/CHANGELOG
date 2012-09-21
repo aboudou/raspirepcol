@@ -1,5 +1,6 @@
 v1.2 (September xx, 2012)
 *Add hard mode.
+*Updated for RPi.GPIO 0.4.0a
 
 v1.1 (August 19, 2012)
 *Code cleanup.

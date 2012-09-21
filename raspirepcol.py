@@ -45,8 +45,7 @@ def addNewColor(gpioPinLedList, gpioPinSwitchList):
 
 # Called on process interruption. Set all pins to "Input" default mode.
 def endProcess(signalnum = None, handler = None):
-    for gpioPinLed in gpioPinLedListAvail:
-        GPIO.setup(gpioPinLed, GPIO.IN)
+    GPIO.cleanup()
     exit(0)
 
 
