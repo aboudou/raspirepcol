@@ -5,7 +5,7 @@ RasPiRepCol (“RepCol” meanings Repeat Colors) is a project for the [Raspberr
 
 You can have more information into “doc” folder.
 
-* [Project's website](https://goddess-gate.com/dc2/index.php/pages/raspirepcol.en)
+* [Project's website](https://goddess-gate.com/projects/en/raspi/raspirepcol)
 * [Youtube video](http://www.youtube.com/watch?v=H_xmR35Ws0w)
 
 Requirements
