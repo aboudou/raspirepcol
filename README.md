@@ -12,7 +12,7 @@ Requirements
 ------------
 
 * First of all : a Raspberry Pi
-* LED and resistors to build the assembly. Assembly instructions are available at the following URL: [https://goddess-gate.com/dc2/index.php/pages/raspirepcol.en](https://goddess-gate.com/dc2/index.php/pages/raspirepcol.en)
+* LED and resistors to build the assembly. Assembly instructions are available at the following URL: [https://goddess-gate.com/projects/en/raspi/raspirepcol](://goddess-gate.com/projects/en/raspi/raspirepcol)
 * Python (with Debian / Raspbian : packages "python" and "python-dev")
 * RPi.GPIO library (0.4.0a or newer) from [http://pypi.python.org/pypi/RPi.GPIO](http://pypi.python.org/pypi/RPi.GPIO)
 
@@ -29,7 +29,7 @@ How to use RasPiRepCol
 ----------------------
 
 You'll first have to build the assembly, and plug it to the Raspberry Pi
-  (check [https://goddess-gate.com/dc2/index.php/pages/raspirepcol.en](https://goddess-gate.com/dc2/index.php/pages/raspirepcol.en) for more information).
+  (check [https://goddess-gate.com/projects/en/raspi/raspirepcol](https://goddess-gate.com/projects/en/raspi/raspirepcol) for more information).
 
 ### Normal mode
 
