@@ -5,14 +5,14 @@ RasPiRepCol (“RepCol” meanings Repeat Colors) is a project for the [Raspberr
 
 You can have more information into “doc” folder.
 
-* [Project's website](https://goddess-gate.com/projects/en/raspi/raspirepcol)
+* [Project's website](http://goddess-gate.com/projects/en/raspi/raspirepcol)
 * [Youtube video](http://www.youtube.com/watch?v=H_xmR35Ws0w)
 
 Requirements
 ------------
 
 * First of all : a Raspberry Pi
-* LED and resistors to build the assembly. Assembly instructions are available at the following URL: [https://goddess-gate.com/projects/en/raspi/raspirepcol](://goddess-gate.com/projects/en/raspi/raspirepcol)
+* LED and resistors to build the assembly. Assembly instructions are available at the following URL: [http://goddess-gate.com/projects/en/raspi/raspirepcol](://goddess-gate.com/projects/en/raspi/raspirepcol)
 * Python (with Debian / Raspbian : packages "python" and "python-dev")
 * RPi.GPIO library (0.4.0a or newer) from [http://pypi.python.org/pypi/RPi.GPIO](http://pypi.python.org/pypi/RPi.GPIO)
 
@@ -29,7 +29,7 @@ How to use RasPiRepCol
 ----------------------
 
 You'll first have to build the assembly, and plug it to the Raspberry Pi
-  (check [https://goddess-gate.com/projects/en/raspi/raspirepcol](https://goddess-gate.com/projects/en/raspi/raspirepcol) for more information).
+  (check [http://goddess-gate.com/projects/en/raspi/raspirepcol](http://goddess-gate.com/projects/en/raspi/raspirepcol) for more information).
 
 ### Normal mode
 
